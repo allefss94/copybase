@@ -44,10 +44,18 @@
                 v-for="({ type }, index) in pokeStore.pokemon.types"
                 :key="index"
               >
+              <v-icon :icon="`mdi-${mapIcon(type.name)}`"></v-icon>
                 {{ type.name }} -
-                <a :href="type.url" target="_blank" rel="noopener noreferrer">{{
-                  type.url.split("type")[1].replaceAll("/", "")
-                }}</a>
+                <router-link
+                  class="text-decoration-underline text-grey"
+                  :to="{
+                    path: `/details/type/${type.url
+                      .split('type')[1]
+                      .replace('/', '')}`,
+                  }"
+                >
+                  <!-- <v-icon icon="mdi-plus"></v-icon> --> detalhes
+                </router-link>
               </p>
             </div>
 
@@ -59,10 +67,17 @@
                 v-for="({ ability }, index) in pokeStore.pokemon.abilities"
                 :key="index"
               >
-                {{ ability.name }} -
-                <a :href="ability.url" target="_blank" rel="noopener noreferrer">detalhes ID - {{
-                  ability.url.split("ability")[1].replaceAll("/", "")
-                }}</a>
+                {{ ability.name }}
+                <router-link
+                class="text-decoration-underline text-grey"
+                  :to="{
+                    path: `/details/ability/${ability.url
+                      .split('ability')[1]
+                      .replace('/', '')}`,
+                  }"
+                >
+                  detalhes
+                </router-link>
               </p>
             </div>
 
@@ -80,6 +95,7 @@
 
 <script setup>
 //imports
+import { RouterLink } from "vue-router";
 import { ref, computed } from "vue";
 import { UsePokemonStore } from "../store/pokemon";
 
@@ -92,6 +108,22 @@ const bgColor = computed(
   () => pokeStore?.pokemon?.game_indices[0]?.version.name
 );
 
+const mapIcon = (name) => {
+  const list = {
+    grass: 'grass',
+    poison: 'bottle-tonic-skull-outline',
+    fire: 'fire-circle',
+    flying: 'bird',
+    water: 'water-circle',
+    bug: 'shield-bug',
+    normal: 'paw',
+    electric: 'lightning-bolt-outline',
+    ground: 'earth',
+    fairy: 'candy-outline',
+    default: 'account-circle-outline'
+  }
+  return list[name] || list.default
+}
 const getPokemon = async (name) => {
   await pokeStore.get(name);
 };

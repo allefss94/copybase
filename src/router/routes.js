@@ -12,6 +12,12 @@ export default [
         component: () =>
           import(/* webpackChunkName: "home" */ "@/pages/Home.vue"),
       },
+      {
+        path: "details/:type/:id",
+        name: "Details",
+        component: () =>
+          import(/* webpackChunkName: "home" */ "@/pages/Details.vue"),
+      },
     ],
   },
 ];
