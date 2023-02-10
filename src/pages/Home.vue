@@ -82,7 +82,33 @@
             </div>
 
             <v-divider color="black" thickness="2" class="my-2"></v-divider>
+
+            <h3>Movimentos</h3>
+            <div class="stats">
+              <p
+                v-for="({ ability }, index) in pokeStore.pokemon.abilities"
+                :key="index"
+              >
+                {{ ability.name }}
+                <router-link
+                class="text-decoration-underline text-grey"
+                  :to="{
+                    path: `/details/ability/${ability.url
+                      .split('ability')[1]
+                      .replace('/', '')}`,
+                  }"
+                >
+                  detalhes
+                </router-link>
+              </p>
+            </div>
           </v-card-text>
+
+          <v-card-actions>
+            <router-link class="text-decoration-none w-100" :to="{name: 'Galery'}">
+              <v-btn color="primary" variant="outlined" block>Ver galeria</v-btn>
+            </router-link>
+          </v-card-actions>
         </v-card>
 
         <p v-else class="my-10">
@@ -104,9 +130,6 @@ const pokeStore = UsePokemonStore();
 
 // data
 const pokeName = ref("");
-const bgColor = computed(
-  () => pokeStore?.pokemon?.game_indices[0]?.version.name
-);
 
 const mapIcon = (name) => {
   const list = {

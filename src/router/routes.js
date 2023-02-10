@@ -18,6 +18,12 @@ export default [
         component: () =>
           import(/* webpackChunkName: "home" */ "@/pages/Details.vue"),
       },
+      {
+        path: "galery",
+        name: "Galery",
+        component: () =>
+          import(/* webpackChunkName: "home" */ "@/pages/Galery.vue"),
+      },
     ],
   },
 ];
