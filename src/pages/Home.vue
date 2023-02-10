@@ -1,7 +1,98 @@
 <template>
-  <v-row justify="center" items="center" class="h-screen w-screen">
-    <v-col class="" cols="12" md="8" lg="6"> oii </v-col>
+  <h1 class="my-10 text-center">Buscador de Pokemons</h1>
+  <v-row justify="center" align="center" class="h-screen w-screen">
+    <v-col class="" cols="6" md="8" lg="6">
+      <v-text-field
+        v-model="pokeName"
+        :loading="pokeStore.loading"
+        density="compact"
+        class="elevation-6"
+        variant="solo"
+        label="Buscar Pokemon"
+        append-inner-icon="mdi-magnify"
+        single-line
+        hide-details
+        @click:append-inner="getPokemon(pokeName)"
+        @keyup.enter="getPokemon(pokeName)"
+      />
+      <div class="d-flex justify-center">
+        <v-card
+          v-if="!!pokeStore.pokemon"
+          class="mt-10 elevation-12"
+          width="250"
+        >
+          <v-card-title>
+            <v-img :src="pokeStore.pokeImg" alt="pokemon" />
+          </v-card-title>
+
+          <v-card-text>
+            <h3>Atributos</h3>
+            <div class="stats">
+              <p
+                v-for="({ base_stat, stat }, index) in pokeStore.pokemon.stats"
+                :key="index"
+              >
+                {{ stat.name }} - {{ base_stat }}
+              </p>
+            </div>
+
+            <v-divider color="black" thickness="2" class="my-2"></v-divider>
+
+            <h3>Tipos</h3>
+            <div class="stats">
+              <p
+                v-for="({ type }, index) in pokeStore.pokemon.types"
+                :key="index"
+              >
+                {{ type.name }} -
+                <a :href="type.url" target="_blank" rel="noopener noreferrer">{{
+                  type.url.split("type")[1].replaceAll("/", "")
+                }}</a>
+              </p>
+            </div>
+
+            <v-divider color="black" thickness="2" class="my-2"></v-divider>
+
+            <h3>Habilidades</h3>
+            <div class="stats">
+              <p
+                v-for="({ ability }, index) in pokeStore.pokemon.abilities"
+                :key="index"
+              >
+                {{ ability.name }} -
+                <a :href="ability.url" target="_blank" rel="noopener noreferrer">detalhes ID - {{
+                  ability.url.split("ability")[1].replaceAll("/", "")
+                }}</a>
+              </p>
+            </div>
+
+            <v-divider color="black" thickness="2" class="my-2"></v-divider>
+          </v-card-text>
+        </v-card>
+
+        <p v-else class="my-10">
+          Pokemon não encontrado, verifique se o nome está correto ;)
+        </p>
+      </div>
+    </v-col>
   </v-row>
 </template>
 
-<script setup></script>
+<script setup>
+//imports
+import { ref, computed } from "vue";
+import { UsePokemonStore } from "../store/pokemon";
+
+// stores
+const pokeStore = UsePokemonStore();
+
+// data
+const pokeName = ref("");
+const bgColor = computed(
+  () => pokeStore?.pokemon?.game_indices[0]?.version.name
+);
+
+const getPokemon = async (name) => {
+  await pokeStore.get(name);
+};
+</script>
