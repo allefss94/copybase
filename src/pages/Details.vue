@@ -6,7 +6,15 @@
   </v-row>
 
   <v-row class="px-10">
-    <v-col cols="12"> Lista de pokemons da mesma propriedade {{ route.params.type }}</v-col>
+    <v-col cols="12">
+      Lista de pokemons com a mesma propriedade {{ route.params.type }} -
+      {{ pokeStore[route.params.type].name }}</v-col
+    >
+    <v-col cols="12">
+      <router-link class="text-decoration-none" :to="{ name: 'Home' }">
+        <v-btn color="primary" width="200" variant="outlined">Voltar</v-btn>
+      </router-link>
+    </v-col>
 
     <v-col cols="12">
       <v-table>
@@ -18,11 +26,11 @@
         </thead>
         <tbody>
           <tr
-            v-for="item in pokeStore[route.params.type].pokemon"
-            :key="item.pokemon.name"
+            v-for="{ pokemon: item } in pokeStore[route.params.type].pokemon"
+            :key="item"
           >
-            <td>{{ item.pokemon.name }}</td>
-            <td>{{ item.pokemon.url }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.url }}</td>
           </tr>
         </tbody>
       </v-table>

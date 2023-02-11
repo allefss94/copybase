@@ -6,18 +6,18 @@ export const UsePokemonStore = defineStore("pokemon", {
     pokemon: null,
     pokemonForm: null,
     loading: false,
-    move: null,
-    type: null,
-    ability: null,
+    move: {},
+    type: {},
+    ability: {},
   }),
 
   getters: {
     pokeImg: state => state.pokemon?.sprites?.front_default,
     images: state => {
       const images = []
-      Object.keys(state.pokemon.sprites).map((item) => {
-        if (typeof state.pokemon.sprites[item] === "string") {
-          images.push(state.pokemon.sprites[item]);
+      Object.keys(state?.pokemon?.sprites).map((item) => {
+        if (typeof state?.pokemon?.sprites[item] === "string") {
+          images.push(state?.pokemon?.sprites[item]);
         }
       });
 
