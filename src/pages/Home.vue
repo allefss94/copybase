@@ -12,8 +12,8 @@
         append-inner-icon="mdi-magnify"
         single-line
         hide-details
-        @click:append-inner="getPokemon(pokeName)"
-        @keyup.enter="getPokemon(pokeName)"
+        @click:append-inner="getPokemon(pokeName.toLowerCase())"
+        @keyup.enter="getPokemon(pokeName.toLowerCase())"
       />
       <div class="d-flex justify-center">
         <v-card
