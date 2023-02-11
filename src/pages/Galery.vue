@@ -25,13 +25,6 @@ const pokeStore = UsePokemonStore();
 const router = useRouter()
 
 onBeforeMount(() => {
-  console.log(pokeStore)
   if(!pokeStore.images) router.push({name: 'Home'})
-
-  // Object.keys(pokeStore.sprites).map((item) => {
-  //   if (typeof pokeStore.sprites[item] === "string") {
-  //     images.push(pokeStore.sprites[item]);
-  //   }
-  // });
 });
 </script>

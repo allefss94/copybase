@@ -1,11 +1,14 @@
 import { defineStore } from "pinia";
 import { useHttp } from "../composables/http";
-const { getPokemon, getPokemonForm } = useHttp();
+const { getPokemon, getInfo } = useHttp();
 export const UsePokemonStore = defineStore("pokemon", {
   state: () => ({
     pokemon: null,
     pokemonForm: null,
     loading: false,
+    move: null,
+    type: null,
+    ability: null,
   }),
 
   getters: {
@@ -29,5 +32,11 @@ export const UsePokemonStore = defineStore("pokemon", {
       this.loading = false;
       this.pokemon = data;
     },
+    async getInfo(type, id) {
+      this.loading = true;
+      const data = await getInfo(type, id);
+      this.loading = false;
+      this[type] = data;
+    }
   },
 });

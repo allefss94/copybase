@@ -85,22 +85,9 @@
 
             <h3>Movimentos</h3>
             <div class="stats">
-              <p
-                v-for="({ ability }, index) in pokeStore.pokemon.abilities"
-                :key="index"
-              >
-                {{ ability.name }}
-                <router-link
-                class="text-decoration-underline text-grey"
-                  :to="{
-                    path: `/details/ability/${ability.url
-                      .split('ability')[1]
-                      .replace('/', '')}`,
-                  }"
-                >
-                  detalhes
-                </router-link>
-              </p>
+
+              <v-btn color="primary" variant="outlined">Ver lista</v-btn>
+
             </div>
           </v-card-text>
 
