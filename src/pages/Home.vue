@@ -32,7 +32,7 @@
                 v-for="({ base_stat, stat }, index) in pokeStore.pokemon.stats"
                 :key="index"
               >
-                {{ stat.name }} - {{ base_stat }}
+                <v-chip color="primary">{{ stat.name }}</v-chip> - {{ base_stat }}
               </p>
             </div>
 
@@ -44,8 +44,11 @@
                 v-for="({ type }, index) in pokeStore.pokemon.types"
                 :key="index"
               >
-              <v-icon :icon="`mdi-${mapIcon(type.name)}`"></v-icon>
-                {{ type.name }} -
+                <v-icon :icon="`mdi-${mapIcon(type.name)}`"></v-icon>
+                <v-chip color="primary">
+                  {{ type.name }}
+                </v-chip>
+                 -
                 <router-link
                   class="text-decoration-underline text-grey"
                   :to="{
@@ -54,7 +57,7 @@
                       .replace('/', '')}`,
                   }"
                 >
-                  <!-- <v-icon icon="mdi-plus"></v-icon> --> detalhes
+                  detalhes
                 </router-link>
               </p>
             </div>
@@ -67,9 +70,11 @@
                 v-for="({ ability }, index) in pokeStore.pokemon.abilities"
                 :key="index"
               >
+              <v-chip color="primary">
                 {{ ability.name }}
+              </v-chip>
                 <router-link
-                class="text-decoration-underline text-grey"
+                  class="text-decoration-underline text-grey"
                   :to="{
                     path: `/details/ability/${ability.url
                       .split('ability')[1]
@@ -85,15 +90,35 @@
 
             <h3>Movimentos</h3>
             <div class="stats">
+              <v-btn color="primary" variant="outlined">
+                Ver lista
 
-              <v-btn color="primary" variant="outlined">Ver lista</v-btn>
-
+                <v-dialog v-model="dialog" activator="parent" width="300">
+                  <v-card>
+                    <v-card-text>
+                      <ul>
+                        <li v-for="({ move }, index) in pokeStore.pokemon.moves" :key="index">{{ move.name }}</li>
+                      </ul>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-btn color="primary" block @click="dialog = false"
+                        >Fechar</v-btn
+                      >
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-btn>
             </div>
           </v-card-text>
 
           <v-card-actions>
-            <router-link class="text-decoration-none w-100" :to="{name: 'Galery'}">
-              <v-btn color="primary" variant="outlined" block>Ver galeria</v-btn>
+            <router-link
+              class="text-decoration-none w-100"
+              :to="{ name: 'Galery' }"
+            >
+              <v-btn color="primary" variant="outlined" block
+                >Ver galeria</v-btn
+              >
             </router-link>
           </v-card-actions>
         </v-card>
@@ -117,23 +142,24 @@ const pokeStore = UsePokemonStore();
 
 // data
 const pokeName = ref("");
+const dialog = ref(false);
 
 const mapIcon = (name) => {
   const list = {
-    grass: 'grass',
-    poison: 'bottle-tonic-skull-outline',
-    fire: 'fire-circle',
-    flying: 'bird',
-    water: 'water-circle',
-    bug: 'shield-bug',
-    normal: 'paw',
-    electric: 'lightning-bolt-outline',
-    ground: 'earth',
-    fairy: 'candy-outline',
-    default: 'account-circle-outline'
-  }
-  return list[name] || list.default
-}
+    grass: "grass",
+    poison: "bottle-tonic-skull-outline",
+    fire: "fire-circle",
+    flying: "bird",
+    water: "water-circle",
+    bug: "shield-bug",
+    normal: "paw",
+    electric: "lightning-bolt-outline",
+    ground: "earth",
+    fairy: "candy-outline",
+    default: "account-circle-outline",
+  };
+  return list[name] || list.default;
+};
 const getPokemon = async (name) => {
   await pokeStore.get(name);
 };
